@@ -1,0 +1,4 @@
+
+Deprecated: Case statements followed by a semicolon (;) are deprecated, use a colon (:) instead in phar://C:/ProgramData/ComposerSetup/bin/composer.phar/vendor/react/promise/src/functions.php on line 369
+Deprecation Notice: Constant E_STRICT is deprecated since 8.4, the error level was removed in phar://C:/ProgramData/ComposerSetup/bin/composer.phar/src/Composer/Util/Silencer.php:36
+Composer version 2.5.8 2023-06-09 17:13:21
