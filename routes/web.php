@@ -19,3 +19,7 @@ Route::middleware('auth')->group(function () {
         return view('dashboard');
     })->name('dashboard');
 });
+
+Route::middleware(['auth', 'is_super_admin'])->prefix('admin')->name('admin.')->group(function () {
+    Route::resource('tenants', \App\Http\Controllers\Admin\TenantController::class);
+});
