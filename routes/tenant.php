@@ -24,6 +24,21 @@ Route::middleware([
     PreventAccessFromCentralDomains::class,
 ])->group(function () {
     Route::get('/', function () {
-        return 'This is your multi-tenant application. The id of the current tenant is ' . tenant('id');
+        return redirect('/login');
+    });
+
+    // Guest routes
+    Route::middleware('guest')->group(function () {
+        Route::get('/login', [\App\Http\Controllers\Tenant\AuthController::class, 'showLoginForm'])->name('tenant.login');
+        Route::post('/login', [\App\Http\Controllers\Tenant\AuthController::class, 'login']);
+    });
+
+    // Authenticated routes
+    Route::middleware('auth')->group(function () {
+        Route::post('/logout', [\App\Http\Controllers\Tenant\AuthController::class, 'logout'])->name('tenant.logout');
+        
+        Route::get('/dashboard', function () {
+            return view('tenant.dashboard');
+        })->name('tenant.dashboard');
     });
 });
