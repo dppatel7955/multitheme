@@ -7,19 +7,26 @@ use Illuminate\Support\Facades\Route;
 
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
-        web: __DIR__.'/../routes/web.php',
         commands: __DIR__.'/../routes/console.php',
         health: '/up',
-        then: function () {
-            Route::middleware([
-                'web',
-                \Stancl\Tenancy\Middleware\InitializeTenancyByDomain::class,
-                \Stancl\Tenancy\Middleware\PreventAccessFromCentralDomains::class,
-            ])->group(base_path('routes/tenant.php'));
+        using: function () {
+            $centralDomains = config('tenancy.central_domains');
+
+            foreach ($centralDomains as $domain) {
+                Route::middleware('web')
+                    ->domain($domain)
+                    ->group(base_path('routes/web.php'));
+            }
+
+            require base_path('routes/tenant.php');
         }
     )
     ->withMiddleware(function (Middleware $middleware): void {
-        $middleware->alias(['is_super_admin' => \App\Http\Middleware\IsSuperAdmin::class]);
+        $middleware->alias([
+            'is_super_admin' => \App\Http\Middleware\IsSuperAdmin::class,
+            'tenant.auth' => \App\Http\Middleware\TenantAuth::class,
+            'tenant.guest' => \App\Http\Middleware\TenantGuest::class,
+        ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         //

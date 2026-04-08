@@ -30,7 +30,7 @@
                                 <span class="badge">{{ $tenant->id }}</span>
                             </td>
                             <td style="font-weight: 500; color: var(--text-dark);">
-                                {{ $tenant->data['name'] ?? 'N/A' }}
+                                {{ $tenant->name ?? 'N/A' }}
                             </td>
                             <td>
                                 @foreach($tenant->domains as $domain)
@@ -50,6 +50,9 @@
                             </td>
                             <td style="text-align: right;">
                                 <div style="display: inline-flex; gap: 0.5rem;">
+                                    <a href="{{ route('admin.tenants.users.index', $tenant->id) }}" class="btn btn-primary btn-sm" title="Manage Users">
+                                        <i class="fa-solid fa-users"></i> Users
+                                    </a>
                                     <a href="{{ route('admin.tenants.edit', $tenant->id) }}" class="btn btn-secondary btn-sm" title="Edit">
                                         <i class="fa-solid fa-pen-to-square"></i> Edit
                                     </a>

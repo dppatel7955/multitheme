@@ -28,13 +28,13 @@ Route::middleware([
     });
 
     // Guest routes
-    Route::middleware('guest')->group(function () {
+    Route::middleware('tenant.guest')->group(function () {
         Route::get('/login', [\App\Http\Controllers\Tenant\AuthController::class, 'showLoginForm'])->name('tenant.login');
         Route::post('/login', [\App\Http\Controllers\Tenant\AuthController::class, 'login']);
     });
 
     // Authenticated routes
-    Route::middleware('auth')->group(function () {
+    Route::middleware('tenant.auth')->group(function () {
         Route::post('/logout', [\App\Http\Controllers\Tenant\AuthController::class, 'logout'])->name('tenant.logout');
         
         Route::get('/dashboard', function () {

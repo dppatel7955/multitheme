@@ -22,4 +22,5 @@ Route::middleware('auth')->group(function () {
 
 Route::middleware(['auth', 'is_super_admin'])->prefix('admin')->name('admin.')->group(function () {
     Route::resource('tenants', \App\Http\Controllers\Admin\TenantController::class);
+    Route::resource('tenants.users', \App\Http\Controllers\Admin\TenantUserController::class);
 });
